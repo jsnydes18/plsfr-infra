@@ -80,6 +80,6 @@ npm install -g aws-cdk-local aws-cdk # MUST be a Global Install, unless you want
 cdklocal --version
 
 export AWS_DEFAULT_REGION=us-east-2
-cdklocal boostrap
+cdklocal bootstrap
 cdklocal deploy
 ```
