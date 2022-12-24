@@ -13,11 +13,10 @@ for x in range(1,5):
     pages = random.randint(1,10)
     for y in range(1,pages):
         item = {
-                'reqId': msgId,
-                'pageNum': str(y),
-                'results': random.choices(string.ascii_letters + string.digits, k=16),
-            }
-        print(item)
+            'msgId': msgId,
+            'pageNum': str(y),
+            'results': random.choices(string.ascii_letters + string.digits, k=16),
+        }
         table.put_item(
             Item=item
         )
