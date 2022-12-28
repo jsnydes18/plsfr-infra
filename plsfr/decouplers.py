@@ -11,6 +11,7 @@ def create_queue(self):
         queue_name=queue_name,
         visibility_timeout=Duration.seconds(5),
     )
+    queue.grant_send_messages(self.node.find_child("RequestSubmitFunction"))
     return queue
 
 def create_table(self):
@@ -29,4 +30,5 @@ def create_table(self):
         write_capacity=20,
         read_capacity=20
     )
+    table.grant_read_data(self.node.find_child("RequestPullFunction"))
     return table

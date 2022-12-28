@@ -2,7 +2,9 @@ from aws_cdk import (
     aws_apigateway as apigateway,
     aws_iam as iam
 )
-from plsfr import lambdas, keys
+from plsfr import keys
+from plsfr.lambdas import mock, request
+
 
 def create_api(self):
     policy = iam.PolicyDocument(
@@ -11,9 +13,9 @@ def create_api(self):
                 actions=["execute-api:Invoke"],
                 resources=["execute-api:/prod/*"],
                 principals=[
-                    iam.ArnPrincipal("arn:aws:iam::677532242987:root"),
-                    iam.ArnPrincipal("arn:aws:iam::677532242987:user/Vyn")
-                    # iam.AnyPrincipal()
+                    # iam.ArnPrincipal("arn:aws:iam::677532242987:root"),
+                    # iam.ArnPrincipal("arn:aws:iam::677532242987:user/Vyn")
+                    iam.AnyPrincipal()
                 ]
             )
         ],
@@ -40,22 +42,42 @@ def create_api(self):
     )
     plan.add_api_key(key)
 
-    add_handlers(self, apigw_api)
+    add_mock_handlers(self, apigw_api)
+    add_request_handlers(self, apigw_api)
 
 
-def add_handlers(self, api):
+def add_mock_handlers(self, api):
+    parent_path = api.root.add_resource('mock')
     # /submit Handler
     submit_api = "submit"
-    submit_items = api.root.add_resource(submit_api)
+    submit_items = parent_path.add_resource(submit_api)
     submit_items.add_method("PUT",
-        apigateway.LambdaIntegration(lambdas.submit_lambda(self)),
+        apigateway.LambdaIntegration(mock.submit_lambda(self)),
         api_key_required=True
     )
 
     # /pull Handler
     pull_api = "pull"
-    pull_items = api.root.add_resource(pull_api)
+    pull_items = parent_path.add_resource(pull_api)
     pull_items.add_method("GET",
-        apigateway.LambdaIntegration(lambdas.pull_lambda(self)),
+        apigateway.LambdaIntegration(mock.pull_lambda(self)),
+        api_key_required=True
+    )
+
+def add_request_handlers(self, api):
+    parent_path = api.root.add_resource('request')
+    # /submit Handler
+    submit_api = "submit"
+    submit_items = parent_path.add_resource(submit_api)
+    submit_items.add_method("PUT",
+        apigateway.LambdaIntegration(request.submit_lambda(self)),
+        api_key_required=True
+    )
+
+    # /pull Handler
+    pull_api = "pull"
+    pull_items = parent_path.add_resource(pull_api)
+    pull_items.add_method("GET",
+        apigateway.LambdaIntegration(request.pull_lambda(self)),
         api_key_required=True
     )
