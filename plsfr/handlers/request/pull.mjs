@@ -4,6 +4,10 @@ const handler = async (event, context, callback) => {
   const { reqId } = event.queryStringParameters;
   const ddb = new AWS.DynamoDB();
   const params = {
+    AttributesToGet: [
+      "pageNum",
+      "playlists"
+    ],
     ExpressionAttributeValues: {
       ":v1": {
         S: reqId,
@@ -11,6 +15,7 @@ const handler = async (event, context, callback) => {
     },
     KeyConditionExpression: "msgId = :v1",
     ProjectionExpression: "pageNum",
+    Select: "SPECIFIC_ATTRIBUTES",
     TableName: "pullTable",
   };
   const preResults = await ddb.query(params).promise();
