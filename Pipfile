@@ -1,0 +1,24 @@
+[[source]]
+url = "https://pypi.org/simple"
+verify_ssl = true
+name = "pypi"
+
+[packages]
+boto3 = "*"
+localstack = "*"
+aws = "*"
+awscli = "*"
+awscli-local = "*"
+aws-cdk-lib = "2.54.0"
+constructs = ">10.0.0,<11.0.0"
+"aws-cdk.core" = "*"
+
+[dev-packages]
+pytest = "*"
+
+[requires]
+python_version = "3.8"
+
+[scripts]
+build = "pipenv install --deploy"
+build-dev = "pipenv install"

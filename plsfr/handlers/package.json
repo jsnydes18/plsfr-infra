@@ -1,5 +1,8 @@
 {
   "dependencies": {
     "aws-sdk": "^2.1283.0"
+  },
+  "scripts": {
+    "build": "zip -r handlers.zip ."
   }
 }
