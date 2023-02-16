@@ -28,7 +28,11 @@ const handler = async (event, context, callback) => {
     const response = {
       isBase64Encoded: false,
       statusCode: 200,
-      headers: {},
+      headers: {
+        "Access-Control-Allow-Headers":"Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+        "Access-Control-Allow-Methods":"OPTIONS,GET",
+        "Access-Control-Allow-Origin":"*"
+      },
       body: JSON.stringify({
         reqId,
         results: pages,
