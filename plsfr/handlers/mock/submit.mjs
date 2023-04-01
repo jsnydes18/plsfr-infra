@@ -9,7 +9,7 @@ const handler = async (event, context, callback) => {
     isBase64Encoded: false,
     statusCode: 200,
     headers: {
-      "Access-Control-Allow-Headers":"Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token",
+      "Access-Control-Allow-Headers":"*",
       "Access-Control-Allow-Methods":"OPTIONS,PUT",
       "Access-Control-Allow-Origin":"*"
     },
